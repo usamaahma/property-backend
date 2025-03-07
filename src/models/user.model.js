@@ -44,6 +44,61 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    avatar: {
+      type: String,
+      default: '',
+    },
+    description: {
+      type: String,
+      default: '',
+      trim: true,
+    },
+    phoneNumber: {
+      type: String,
+      default: '',
+      validate(value) {
+        if (value && !validator.isMobilePhone(value, 'any')) {
+          throw new Error('Invalid phone number');
+        }
+      },
+    },
+    agencyName: {
+      type: String,
+      default: '',
+      trim: true,
+    },
+    agencyAddress: [
+      {
+        street: { type: String, default: '' },
+        city: { type: String, default: '' },
+        state: { type: String, default: '' },
+        zipCode: { type: String, default: '' },
+        country: { type: String, default: '' },
+      },
+    ],
+    propertiesListed: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Property', // Reference to Property model
+      },
+    ],
+    totalListings: {
+      type: Number,
+      default: 0,
+    },
+    rating: {
+      type: Number,
+      default: 0,
+    },
+    reviews: {
+      type: Number,
+      default: 0,
+    },
+    agencyNtnNumber: {
+      type: String,
+      default: '',
+      trim: true,
+    },
   },
   {
     timestamps: true,

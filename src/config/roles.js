@@ -1,5 +1,7 @@
 const allRoles = {
   user: [],
+  contractor: ['manageContractors'],
+  dealer: ['manageProperties'],
   admin: ['getUsers', 'manageUsers'],
 };
 
