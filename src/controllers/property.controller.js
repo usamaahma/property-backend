@@ -10,7 +10,7 @@ const createProperty = catchAsync(async (req, res) => {
 });
 
 const getProperties = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['location', 'type', 'price']);
+  const filter = pick(req.query, ['location', 'type', 'price', 'userId']); // userId add kiya
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await propertyService.queryProperties(filter, options);
   res.send(result);
@@ -25,7 +25,11 @@ const getProperty = catchAsync(async (req, res) => {
 });
 
 const getPropertiesByUser = catchAsync(async (req, res) => {
-  const properties = await propertyService.getPropertiesByUser(req.params.userId);
+  const { userId } = req.params; // ✅ Correct way
+  if (!userId) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'User ID is required');
+  }
+  const properties = await propertyService.getPropertiesByUser(userId);
   res.send(properties);
 });
 
