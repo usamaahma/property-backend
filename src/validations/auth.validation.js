@@ -3,10 +3,49 @@ const { password } = require('./custom.validation');
 
 const register = {
   body: Joi.object().keys({
+    name: Joi.string().required(),
     email: Joi.string().required().email(),
     password: Joi.string().required().custom(password),
-    name: Joi.string().required(),
+    description: Joi.string().optional(),
+    role: Joi.string().valid('user', 'dealer', 'contractor').required(),
+    phoneNumber: Joi.string().when('role', {
+      is: Joi.valid('dealer', 'contractor'),
+      then: Joi.string().required(),
+      otherwise: Joi.forbidden(),
+    }),
+    agencyName: Joi.string().when('role', {
+      is: Joi.valid('dealer', 'contractor'),
+      then: Joi.string().required(),
+      otherwise: Joi.forbidden(),
+    }),
+    agencyNtnNumber: Joi.string().when('role', {
+      is: Joi.valid('dealer', 'contractor'),
+      then: Joi.string().required(),
+      otherwise: Joi.forbidden(),
+    }),
+    agencyAddress: Joi.array()
+      .items(
+        Joi.object({
+          street: Joi.string().allow(''),
+          city: Joi.string().allow(''),
+          state: Joi.string().allow(''),
+          zipCode: Joi.string().allow(''),
+          country: Joi.string().allow(''),
+        })
+      )
+      .when('role', {
+        is: Joi.valid('dealer', 'contractor'),
+        then: Joi.required(),
+        otherwise: Joi.forbidden(),
+      }),
+
+    // Avatar field added (optional)
+    avatar: Joi.string().optional(),
   }),
+};
+
+module.exports = {
+  register,
 };
 
 const login = {
