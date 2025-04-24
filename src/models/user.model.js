@@ -76,12 +76,6 @@ const userSchema = mongoose.Schema(
         country: { type: String, default: '' },
       },
     ],
-    propertiesListed: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Property', // Reference to Property model
-      },
-    ],
     totalListings: {
       type: Number,
       default: 0,
