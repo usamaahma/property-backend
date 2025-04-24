@@ -6,23 +6,34 @@ const register = {
     name: Joi.string().required(),
     email: Joi.string().required().email(),
     password: Joi.string().required().custom(password),
-    description: Joi.string().optional(),
     role: Joi.string().valid('user', 'dealer', 'contractor').required(),
-    phoneNumber: Joi.string().when('role', {
-      is: Joi.valid('dealer', 'contractor'),
-      then: Joi.string().required(),
-      otherwise: Joi.forbidden(),
-    }),
-    agencyName: Joi.string().when('role', {
-      is: Joi.valid('dealer', 'contractor'),
-      then: Joi.string().required(),
-      otherwise: Joi.forbidden(),
-    }),
-    agencyNtnNumber: Joi.string().when('role', {
-      is: Joi.valid('dealer', 'contractor'),
-      then: Joi.string().required(),
-      otherwise: Joi.forbidden(),
-    }),
+
+    description: Joi.string().allow('').optional(),
+
+    phoneNumber: Joi.string()
+      .allow('')
+      .when('role', {
+        is: Joi.valid('dealer', 'contractor'),
+        then: Joi.string().required(),
+        otherwise: Joi.optional(),
+      }),
+
+    agencyName: Joi.string()
+      .allow('')
+      .when('role', {
+        is: Joi.valid('dealer', 'contractor'),
+        then: Joi.string().required(),
+        otherwise: Joi.optional(),
+      }),
+
+    agencyNtnNumber: Joi.string()
+      .allow('')
+      .when('role', {
+        is: Joi.valid('dealer', 'contractor'),
+        then: Joi.string().required(),
+        otherwise: Joi.optional(),
+      }),
+
     agencyAddress: Joi.array()
       .items(
         Joi.object({
@@ -36,16 +47,11 @@ const register = {
       .when('role', {
         is: Joi.valid('dealer', 'contractor'),
         then: Joi.required(),
-        otherwise: Joi.forbidden(),
+        otherwise: Joi.optional(),
       }),
 
-    // Avatar field added (optional)
-    avatar: Joi.string().optional(),
+    avatar: Joi.string().allow('').optional(),
   }),
-};
-
-module.exports = {
-  register,
 };
 
 const login = {
