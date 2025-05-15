@@ -1,5 +1,4 @@
 const express = require('express');
-const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const propertyValidation = require('../../validations/property.validation');
 const propertyController = require('../../controllers/property.controller');
@@ -18,6 +17,6 @@ router
   .route('/:propertyId')
   .get(validate(propertyValidation.getProperty), propertyController.getProperty)
   .patch(validate(propertyValidation.updateProperty), propertyController.updateProperty)
-  .delete(auth('manageProperties'), validate(propertyValidation.deleteProperty), propertyController.deleteProperty);
+  .delete(validate(propertyValidation.deleteProperty), propertyController.deleteProperty);
 
 module.exports = router;

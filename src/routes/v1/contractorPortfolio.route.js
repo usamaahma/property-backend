@@ -1,5 +1,4 @@
 const express = require('express');
-const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const contractorPortfolioValidation = require('../../validations/contractorPortfolio.validation');
 const contractorPortfolioController = require('../../controllers/contractorPortfolio.controller');
@@ -22,7 +21,6 @@ router
     contractorPortfolioController.updateContractorPortfolio
   )
   .delete(
-    auth('manageContractors'),
     validate(contractorPortfolioValidation.getContractorPortfolio),
     contractorPortfolioController.deleteContractorPortfolio
   );
